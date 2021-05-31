@@ -2,19 +2,20 @@
 # -*- coding: utf-8 -*-
 """
 Programme d'extraction des informations produits du site books to scrape
-
 """
 
 import requests
-from bs4 import BeautifulSoup 
-#import csv
 import pandas
+#import csv
+from bs4 import BeautifulSoup 
 
 
 
-#url_category = "https://books.toscrape.com/catalogue/category/books/fantasy_19/index.html" 
+url_page = "https://books.toscrape.com/index.html" 
 
-url_page = "https://books.toscrape.com/"
+
+category_link_list = []
+
 
 
 #Création du dictionnaire 
@@ -44,16 +45,16 @@ def exportation_data(data):
 	df.to_csv("data.csv", index=False)
 
 
-
 #fonction d'extraction des informations produits
 def extration_data(url):
 
-	#global category
+	global category
 	reponse = requests.get(url)
 
 	if reponse.ok:
 		soup = BeautifulSoup(reponse.text,"html.parser")
 		links = soup.findAll("h3")
+
 		for link in links:
 			a = link.find("a")["href"].split("..")[3]
 			link_product = "https://books.toscrape.com/catalogue" + a
@@ -86,58 +87,42 @@ def extration_data(url):
 
 
 #foncion de selection des pages 
+
 def create_data_frame(url):
-
-	page = 0
-	r = requests.get(url)
-
-	if r.ok:
+	
+		r = requests.get(url)
 		soup = BeautifulSoup(r.text, "html.parser")
-		while page <= 51: # for i in range (1,51):
-			url_category = soup.find("ul", {"class":"nav nav-list"}).findAll("a")[page]["href"]
-			category_link = url_page + url_category
-			page += 1
-				
-			r = requests.get(category_link)
-			if r.ok:
-				soup = BeautifulSoup(r.text,"html.parser")
-				try:
-					next_page_text = soup.find("li", {"class":"current"}).text.strip()
-					next_page_number = next_page_text.split(" ")[3]
-					next_page_href = soup.find("li", {"class":"next"}).find("a")["href"]
-					
-
-					for i in range (1, int(next_page_number)+1):
-						next_page_url = category_link.split("index")[0] +"page-"+ str(i) +".html"
-						extration_data(next_page_url)
-						exportation_data(data)					
-						
-				except :
-					extration_data(category_link)
-					exportation_data(data)
-
-
-create_data_frame(url_page)		
-				
- 
-"""
-
-
-
-
-
+		a = soup.find("form", {"class":"form-horizontal"}).findAll("strong")
+		try:
+			next_page_text = soup.find("li", {"class":"current"}).text.strip()
+			next_page_number = next_page_text.split(" ")[3]
+			next_page_href = soup.find("li", {"class":"next"}).find("a")["href"]
 			
 
+			for i in range (1, int(next_page_number)+1):
+				next_page_url = url.split("index")[0] +"page-"+ str(i) +".html"
+				extration_data(next_page_url)
+				exportation_data(data)				
+			
+		except :
+			extration_data(url)
+			exportation_data(data)
 
 
-
-
-
+def parse_url_page(url):
+	r = requests.get(url)
+	if r.ok:
+		soup = BeautifulSoup(r.text,"html.parser")
+		for i in range (1, 51):#while page <= 49:
+			url_category = soup.find("ul", {"class":"nav nav-list"}).findAll("a")[i]["href"]
+			category_link = url_page.split("index")[0]+ url_category
+			category_link_list.append(category_link)
 	
+	for url in category_link_list:
+		create_data_frame(url)
 
 
 
 
-
-
-	
+parse_url_page(url_page)		
+		
