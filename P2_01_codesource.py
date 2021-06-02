@@ -6,7 +6,6 @@ Programme d'extraction des informations produits du site books to scrape
 
 import requests
 import pandas
-#import csv
 from bs4 import BeautifulSoup 
 
 
@@ -15,7 +14,6 @@ url_page = 'https://books.toscrape.com/index.html'
 
 # Création de la liste des liens des différentes catégories
 category_link_list = []
-
 
 #Création du dictionnaire de stockage des infos produit
 
@@ -32,7 +30,6 @@ data = {
 		'Image_url':[]
 		}
 
-
 # fonction de création du csv 
 def export_data(info):
 
@@ -44,7 +41,6 @@ def export_data(info):
 
 	file_name = category.split('\n')[1]
 
-	#df.to_csv('data1.csv', index=False)
 	df.to_csv(f'{file_name}.csv', index=False)  
 
 
@@ -115,10 +111,6 @@ def parse_category_page(url):
 	if len(a) == 1:
 		extract_data(url)
 		export_data(data)
-
-		#print(url)
-
-		
 	else:
 		next_page_text = soup.find('li', {'class':'current'}).text.strip()
 		next_page_number = next_page_text.split(' ')[3]
@@ -132,19 +124,11 @@ def parse_category_page(url):
 			page_num = next_page_text.split(' ')[1]
 			
 			if int(page_num) < int(next_page_number) : 
-				extract_data(next_page_url)
-				#print(next_page_url)
-				#print(next_page_number)
-				#print(page_num)	
+				extract_data(next_page_url)				
 			else:
 				extract_data(next_page_url)
 				export_data(data)
-				#print(next_page_url)
-				#print('export')	
-				
-						
-				
-
+																
 #fonction d'extration des pages de catégorie
 def parse_url_page(url):
 	r = requests.get(url)
