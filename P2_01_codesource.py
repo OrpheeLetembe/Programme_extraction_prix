@@ -6,6 +6,7 @@ Programme d'extraction des informations produits du site books to scrape
 
 import requests
 import pandas
+import os
 from bs4 import BeautifulSoup 
 
 
@@ -14,6 +15,9 @@ url_page = 'https://books.toscrape.com/index.html'
 
 # Création de la liste des liens des différentes catégories
 category_link_list = []
+
+# Création de la liste d'images
+#images = []
 
 #Création du dictionnaire de stockage des infos produit
 
@@ -28,20 +32,29 @@ data = {
 		'Category':[],
 		'Review_rating':[],
 		'Image_url':[]
+		
 		}
 
 # fonction de création du csv 
 def export_data(info):
 
 
+	file_name = category.split('\n')[1]
+	#Images_folder = 'Images' +' '+ file_name
+	os.mkdir(file_name)
+
 	df = pandas.DataFrame(data, columns= ['Product_page_url' , 'Universal_Product_Code' , 'Title' , 
 	'Price_including_tax' , 'Price_excluding_tax' , 'Number_avaible' , 
 	'Product_description' , 'Category' , 'Review_rating' , 'Image_url'
 	])
+	
+	df.to_csv(file_name + '\\' + 'books.csv', index=False) 
 
-	file_name = category.split('\n')[1]
+	for i in range(len(data['Image_url'])):
+		r = requests.get(data['Image_url'][i])
+		with open(file_name + '\\' + 'image' + str(i+1) + '.jpg', 'wb') as f: 
+			f.write(r.content)
 
-	df.to_csv(f'{file_name}.csv', index=False)  
 
 
 	data['Product_page_url'] =[]
@@ -57,10 +70,13 @@ def export_data(info):
 
 
 
+
 #fonction d'extraction des informations produits
-def extract_data(url):
+def extract_product_info(url):
 
 	global category
+	#global images
+	#images = []
 
 	reponse = requests.get(url)
 
@@ -74,7 +90,6 @@ def extract_data(url):
 			r = requests.get(link_product)
 
 			if r.ok:
-
 				soup = BeautifulSoup(r.text,'html.parser')
 				product_page_url = link_product
 				universal_product_code = soup.find('table',{'class':'table table-striped'}).findAll('td')[0].text
@@ -87,8 +102,8 @@ def extract_data(url):
 				review_rating = soup.find('table',{'class':'table table-striped'}).findAll('td')[6].text
 				image_src = soup.find('div',{'class':'item active'}).find('img')['src'].split('..')[2]
 				image_url = 'https://books.toscrape.com' + image_src
-
-							
+				
+			
 				data['Product_page_url'].append(product_page_url)
 				data['Universal_Product_Code'].append(universal_product_code)
 				data['Title'].append(title)
@@ -100,6 +115,8 @@ def extract_data(url):
 				data['Review_rating'].append(review_rating)
 				data['Image_url'].append(image_url)
 
+				#images.append(image_url)
+		
 
 #foncion de selection des pages des catégories
 def parse_category_page(url):
@@ -109,8 +126,10 @@ def parse_category_page(url):
 	a = soup.find('form', {'class':'form-horizontal'}).findAll('strong')
 
 	if len(a) == 1:
-		extract_data(url)
+		extract_product_info(url)
+		#extract_image(url)
 		export_data(data)
+		#print(url)
 	else:
 		next_page_text = soup.find('li', {'class':'current'}).text.strip()
 		next_page_number = next_page_text.split(' ')[3]
@@ -124,10 +143,13 @@ def parse_category_page(url):
 			page_num = next_page_text.split(' ')[1]
 			
 			if int(page_num) < int(next_page_number) : 
-				extract_data(next_page_url)				
+				extract_product_info(next_page_url)
+				#print(next_page_url)				
 			else:
-				extract_data(next_page_url)
+				extract_product_info(next_page_url)
+				#extract_image()
 				export_data(data)
+				#print(next_page_url)
 																
 #fonction d'extration des pages de catégorie
 def parse_url_page(url):
@@ -143,5 +165,7 @@ def parse_url_page(url):
 		parse_category_page(url)
 
 
-parse_url_page(url_page)	
+parse_url_page(url_page)
+
+	
 
