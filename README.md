@@ -43,7 +43,7 @@ source tutorial-env/bin/activate
 # Requirements :
 
 ## Installation 
-pip install <nom >
+pip install *nom de la librairie*
   
 Liste librairies
   
@@ -65,8 +65,8 @@ Liste librairies
 
 ## Exécution du code
 
-Sur Windows :
-- Python  P2_01_codesource.py
-Sur Unix et MacOS :
-- Python3  P2_01_codesource.py
+- Sur Windows :
+Python  P2_01_codesource.py
+- Sur Unix et MacOS :
+Python3  P2_01_codesource.py
 
