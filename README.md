@@ -4,7 +4,7 @@ Extraction des informations produits sur le site Books to Scrape, revendeur de l
 Version bêta
 Orphée analyste marketing chez Books Online 04/06/2021
 
-##Description :
+ # Description :
 Ce programme développé en python 3.9.5 a pour vocation, dans sa version bêta, d’extraire, en format csv, 
 et de classer par catégorie les informations des produits distribués par Books to Scrape.
 
@@ -20,9 +20,9 @@ Informations extraites :
 -	Note
 -	Image de couverture
 
-##Environnement virtuel : 
+# Environnement virtuel : 
 
-###Création :
+## Création :
 Pour la procédure décrite ci-dessous vous devez disposer au minimum de la version Python 3.3.
 Ouvrir un terminal et choisir un emplacement pour l’environnement virtuel
 (si vous avez déjà téléchargé le programme accédé au dossier dans lequel vous l’avez enregistré)
@@ -32,7 +32,7 @@ Python -m venv <non de l’environnement>
 Sur Unix et MacOS :
 Python3 -m venv <non de l’environnement>     
 
-###Activation :
+## Activation :
 Sur Windows, :
 env\Scripts\activate
 
@@ -40,12 +40,12 @@ Sur Unix et MacOS  :
 source tutorial-env/bin/activate
 (Ce script est écrit pour le shell bash. Si vous utilisez csh ou fish, utilisez les variantes activate.csh ou activate.fish.)
 
-##Requirements :
+# Requirements :
 
-###Installation 
+## Installation 
 pip install <nom >
   
-###Liste
+Liste librairies
   
 - beautifulsoup4==4.9.3
 - bs4==0.0.1
@@ -63,7 +63,7 @@ pip install <nom >
 - urllib3==1.26.4
 
 
-Exécution du code
+## Exécution du code
 
 Sur Windows :
 - Python  P2_01_codesource.py
