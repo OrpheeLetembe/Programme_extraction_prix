@@ -1,7 +1,7 @@
 # Programme_extraction_prix
 Extraction des informations produits sur le site Books to Scrape, revendeur de livres en ligne
-
 Version bêta
+
 Orphée analyste marketing chez Books Online 04/06/2021
 
  # Description :
