@@ -27,16 +27,16 @@ Pour la procédure décrite ci-dessous vous devez disposer au minimum de la vers
 Ouvrir un terminal et choisir un emplacement pour l’environnement virtuel
 (si vous avez déjà téléchargé le programme accédé au dossier dans lequel vous l’avez enregistré)
 
-Sur Windows :
+- Sur Windows :
 Python -m venv <non de l’environnement>
-Sur Unix et MacOS :
+- Sur Unix et MacOS :
 Python3 -m venv <non de l’environnement>     
 
 ## Activation :
-Sur Windows, :
+- Sur Windows, :
 env\Scripts\activate
 
-Sur Unix et MacOS  :
+- Sur Unix et MacOS  :
 source tutorial-env/bin/activate
 (Ce script est écrit pour le shell bash. Si vous utilisez csh ou fish, utilisez les variantes activate.csh ou activate.fish.)
 
