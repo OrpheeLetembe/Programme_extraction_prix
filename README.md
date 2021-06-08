@@ -40,30 +40,11 @@ env\Scripts\activate
 source tutorial-env/bin/activate
 (Ce script est écrit pour le shell bash. Si vous utilisez csh ou fish, utilisez les variantes activate.csh ou activate.fish.)
 
-# Requirements :
+# Installation des paquets nécessaires
 
-## Installation 
-pip install *nom de la librairie*
+pip install -r requirements.txt
   
-Liste librairies
-  
-- beautifulsoup4==4.9.3
-- bs4==0.0.1
-- certifi==2020.12.5
-- chardet==4.0.0
-- csv342==1.0.1
-- idna==2.10
-- numpy==1.20.3
-- pandas==1.2.4
-- python-dateutil==2.8.1
-- pytz==2021.1
-- requests==2.25.1
-- six==1.16.0
-- soupsieve==2.2.1
-- urllib3==1.26.4
-
-
-## Exécution du code
+# Exécution du code
 
 - Sur Windows :
 python  P2_01_codesource.py
