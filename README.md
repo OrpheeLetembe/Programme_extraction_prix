@@ -66,7 +66,7 @@ Liste librairies
 ## Exécution du code
 
 - Sur Windows :
-Python  P2_01_codesource.py
+python  P2_01_codesource.py
 - Sur Unix et MacOS :
-Python3  P2_01_codesource.py
+python3  P2_01_codesource.py
 
