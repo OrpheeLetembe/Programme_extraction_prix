@@ -33,7 +33,8 @@ data = {'Product_page_url': [],
 
 def parse_url(url):
     """ This function parses the url passed as argument
-    and returns the html page in text format.
+    and returns the html page in text format
+    format in order to extract the required elements.
     """
 
     response = requests.get(url)
@@ -80,7 +81,7 @@ def export_data(info):
     """This function creates a folder to store the collected information
     in csv format as well as the images.
     """
-  
+
     folder_name = data['Category'][0].split('\n')[1]
     os.mkdir(folder_name)
 
@@ -109,41 +110,45 @@ def export_data(info):
     data['Review_rating'] = []
     data['Image_url'] = []
 
-      
-
 
 def start(url):
     """This function extracts the url of the different categories
-    and product pages"""
+    and product pages.
+    """
+
+    print("Loading..... ")
 
     soup = parse_url(url_site)
     for i in range(1, 51):
-        category_partial_link = soup.find('ul', {'class': 'nav nav-list'}).findAll('a')[i]['href']
-        category_link = url_site.split('index')[0] + category_partial_link
+        partial_link = soup.find('ul', {'class': 'nav nav-list'}).findAll('a')[i]['href']
+        category_link = url_site.split('index')[0] + partial_link
         category_link_list.append(category_link)
 
     for url_category in category_link_list:
         soup = parse_url(url_category)
-        size_book_display = soup.find('form', {'class': 'form-horizontal'}).findAll('strong')
+        book_display = soup.find('form', {'class': 'form-horizontal'}).findAll('strong')
 
-        if len(size_book_display) == 1:
+        if len(book_display) == 1:
             extract_product_info(url_category)
             export_data(data)
+            print(str(category_link_list.index(url_category) + 1) + '/50')
+
         else:
-            page_number_text = soup.find('li', {'class': 'current'}).text.strip()
-            number_of_page = page_number_text.split(' ')[3]
+            page_text = soup.find('li', {'class': 'current'}).text.strip()
+            number_of_page = page_text.split(' ')[3]
 
             for i in range(1, int(number_of_page)+1):
                 next_page_url = url_category.split('index')[0] + 'page-' + str(i) + '.html'
                 soup = parse_url(next_page_url)
-                page_number_text = soup.find('li', {'class': 'current'}).text.strip()
-                current_page_number = page_number_text .split(' ')[1]
+                page_text = soup.find('li', {'class': 'current'}).text.strip()
+                current_page_number = page_text .split(' ')[1]
 
                 if int(current_page_number) < int(number_of_page):
                     extract_product_info(next_page_url)
                 else:
                     extract_product_info(next_page_url)
                     export_data(data)
+                    print(str(category_link_list.index(url_category) + 1) + '/50')
 
 
 start(url_site)
