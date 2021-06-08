@@ -2,7 +2,7 @@
 Extraction des informations produits sur le site Books to Scrape, revendeur de livres en ligne
 - Version bêta
 
-* Orphée analyste marketing chez Books Online 04/06/2021*
+* Orphée analyste marketing chez Books Online 08/06/2021
 
  # Description :
 Ce programme développé en python 3.9.5 a pour vocation, dans sa version bêta, d’extraire, en format csv, 
