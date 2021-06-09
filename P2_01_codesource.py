@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 
 url_site = 'https://books.toscrape.com/index.html'
 
+# Initialization of the category list
 category_link_list = []
 
 # Dictionary definition
