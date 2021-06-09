@@ -56,8 +56,8 @@ def extract_product_info(url):
         product_page_url = link_product
         universal_product_code = soup.findAll('td')[0].text
         title = soup.find('h1').text
-        price_incl_tax = soup.findAll('td')[2].text
-        price_excl_tax = soup.findAll('td')[3].text
+        price_incl_tax = soup.findAll('td')[2].text[2:]
+        price_excl_tax = soup.findAll('td')[3].text[2:]
         number_avaible = soup.findAll('td')[5].text
         product_description = soup.findAll('p')[3].text
         category = soup.findAll('li')[2].text
@@ -83,7 +83,8 @@ def export_data(info):
     """
 
     folder_name = data['Category'][0].split('\n')[1]
-    os.mkdir(folder_name)
+    if not os.path.exists(folder_name):
+        os.mkdir(folder_name)
 
     df = pandas.DataFrame(data, columns=[
         'Product_page_url', 'Universal_Product_Code',
@@ -92,11 +93,14 @@ def export_data(info):
         'Review_rating', 'Image_url'
         ])
 
-    df.to_csv(folder_name + '\\' + 'books.csv', index=False)
+    path = folder_name + '\\' + 'books.csv'
+    if os.path.isfile(path):
+        os.remove(path)
+    df.to_csv(path, index=False)
 
     for i in range(len(data['Image_url'])):
         r = requests.get(data['Image_url'][i])
-        with open(folder_name + '\\' + 'image' + str(i+1) + '.jpg', 'wb') as f:
+        with open(folder_name + '\\' + data['Universal_Product_Code'][i] + '.jpg', 'wb') as f:
             f.write(r.content)
 
     data['Product_page_url'] = []
@@ -116,7 +120,7 @@ def start(url):
     and product pages.
     """
 
-    print("Loading..... ")
+    print("Loading...")
 
     soup = parse_url(url_site)
     for i in range(1, 51):
