@@ -28,9 +28,9 @@ Ouvrir un terminal et choisir un emplacement pour l’environnement virtuel
 (si vous avez déjà téléchargé le programme accédé au dossier dans lequel vous l’avez enregistré)
 
 - Sur Windows :
-Python -m venv <non de l’environnement>
+python -m venv <non de l’environnement>
 - Sur Unix et MacOS :
-Python3 -m venv <non de l’environnement>     
+python3 -m venv <non de l’environnement>     
 
 ## Activation :
 - Sur Windows, :
